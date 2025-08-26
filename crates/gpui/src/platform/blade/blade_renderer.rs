@@ -365,15 +365,7 @@ impl BladeRenderer {
             buffer_count: 2,
         });
         // workaround for https://github.com/zed-industries/zed/issues/26143
-        let path_sample_count = std::env::var("ZED_PATH_SAMPLE_COUNT")
-            .ok()
-            .and_then(|v| v.parse().ok())
-            .or_else(|| {
-                [4, 2, 1]
-                    .into_iter()
-                    .find(|count| context.gpu.supports_texture_sample_count(*count))
-            })
-            .unwrap_or(1);
+        let path_sample_count = 1;
         let pipelines = BladePipelines::new(&context.gpu, surface.info(), path_sample_count);
         let instance_belt = BufferBelt::new(BufferBeltDescriptor {
             memory: gpu::Memory::Shared,
