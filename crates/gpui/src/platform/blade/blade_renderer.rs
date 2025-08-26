@@ -353,7 +353,7 @@ impl BladeRenderer {
             display_sync: gpu::DisplaySync::Recent,
             color_space: gpu::ColorSpace::Linear,
             allow_exclusive_full_screen: false,
-            transparent: config.transparent,
+            transparent: false
         };
         let surface = context
             .gpu
@@ -514,17 +514,7 @@ impl BladeRenderer {
         }
     }
 
-    pub fn update_transparency(&mut self, transparent: bool) {
-        if transparent != self.surface_config.transparent {
-            self.wait_for_gpu();
-            self.surface_config.transparent = transparent;
-            self.gpu
-                .reconfigure_surface(&mut self.surface, self.surface_config);
-            self.pipelines.destroy(&self.gpu);
-            self.pipelines =
-                BladePipelines::new(&self.gpu, self.surface.info(), self.path_sample_count);
-        }
-    }
+    pub fn update_transparency(&mut self, transparent: bool) {}
 
     #[cfg_attr(
         any(target_os = "macos", feature = "wayland", target_os = "windows"),
